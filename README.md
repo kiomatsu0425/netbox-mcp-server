@@ -1,6 +1,6 @@
 # NetBox MCP Server
 
-This is a simple read-only [Model Context Protocol](https://modelcontextprotocol.io/) server for NetBox.  It enables you to interact with your data in NetBox directly via LLMs that support MCP.
+This is a simple [Model Context Protocol](https://modelcontextprotocol.io/) server for NetBox.  It enables you to interact with your data in NetBox directly via LLMs that support MCP.  By default it exposes read-only tools, but also includes a helper for creating objects when write access is desired.
 
 ## Tools
 
@@ -8,13 +8,14 @@ This is a simple read-only [Model Context Protocol](https://modelcontextprotocol
 |------|-------------|
 | get_objects | Retrieves NetBox core objects based on their type and filters |
 | get_object_by_id | Gets detailed information about a specific NetBox object by its ID |
+| create_object | Creates a new NetBox object using the REST API |
 | get_changelogs | Retrieves change history records (audit trail) based on filters |
 
 > Note: the set of supported object types is explicitly defined and limited to the core NetBox objects for now, and won't work with object types from plugins.
 
 ## Usage
 
-1. Create a read-only API token in NetBox with sufficient permissions for the tool to access the data you want to make available via MCP.
+1. Create a NetBox API token with permissions for the actions you want to perform via MCP.
 
 2. Install dependencies: `uv add -r requirements.txt`
 
