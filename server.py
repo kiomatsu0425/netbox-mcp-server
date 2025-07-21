@@ -227,6 +227,24 @@ def netbox_get_object_by_id(object_type: str, object_id: int):
     return netbox.get(endpoint)
 
 @mcp.tool()
+def netbox_create_object(object_type: str, data: dict):
+    """Create a new object in NetBox using HTTP POST.
+
+    Args:
+        object_type: Simple object type string (e.g. "devices", "ip-addresses").
+        data: Dictionary with object fields accepted by the corresponding NetBox API endpoint.
+
+    Returns:
+        The created object as returned by NetBox.
+    """
+    if object_type not in NETBOX_OBJECT_TYPES:
+        valid_types = "\n".join(f"- {t}" for t in sorted(NETBOX_OBJECT_TYPES.keys()))
+        raise ValueError(f"Invalid object_type. Must be one of:\n{valid_types}")
+
+    endpoint = NETBOX_OBJECT_TYPES[object_type]
+    return netbox.create(endpoint, data)
+
+@mcp.tool()
 def netbox_get_changelogs(filters: dict):
     """
     Get object change records (changelogs) from NetBox based on filters.
