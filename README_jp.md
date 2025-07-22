@@ -54,6 +54,45 @@
 > 過去 1 か月間のコアルーターへの構成変更をすべて表示
 ```
 
+### Strands エージェントからの利用
+
+Strands エージェントでこの MCP サーバーを呼び出す場合は、AWS SSO で認証した後、
+モデルとして *Claude Sonnet 3.7* を指定します。以下は設定例です。
+
+1. まず AWS CLI で SSO を設定してログインします。
+
+   ```bash
+   aws configure sso --profile myprofile
+   aws sso login --profile myprofile
+   ```
+
+2. Strands エージェントの設定ファイルに MCP サーバーを登録します。例:
+
+   ```json
+   {
+     "mcpServers": {
+       "netbox": {
+         "command": "uv",
+         "args": [
+           "--directory",
+           "/path/to/netbox-mcp-server",
+           "run",
+           "server.py"
+         ],
+         "env": {
+           "NETBOX_URL": "https://netbox.example.com/",
+           "NETBOX_TOKEN": "<your-api-token>"
+         }
+       }
+     },
+     "awsProfile": "myprofile",
+     "model": "claude-sonnet-3.7"
+   }
+   ```
+
+この設定で、Strands エージェントから認証済みの AWS プロファイルを使用してサーバー
+を呼び出せます。
+
 ## 開発
 
 貢献は歓迎します! Issue を立てるか PR を送ってください。
